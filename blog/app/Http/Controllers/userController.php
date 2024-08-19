@@ -13,7 +13,7 @@ class userController extends Controller
     // $user = $request->user();
     // var_dump($request->all());
     //  return redirect()->away('http://localhost/api_blog/login')->with('nome', $request -> nome)->with('senha', $request -> senha);
-    $conexao = Http::get('http://localhost/api_blog/login', ['nome' => $request->nome, 'senha' => $request->senha]);
+    $conexao = Http::get('http://localhost/blog-ps-samplemed/api_blog/login', ['nome' => $request->nome, 'senha' => $request->senha]);
     $resposta = $conexao->json();
     var_dump($resposta);
     if ($resposta['situacao'] == 'sucesso') {
