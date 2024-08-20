@@ -10,6 +10,7 @@ $app = new \Slim\App;
 $app->get('/','padrao');
 $app->get('/pegarLogin', 'getLogin');
 $app->get('/login', 'login');
+$app->get('/posts', 'getPosts');
 
 function padrao(Request $request, Response $response, array $args)
 {
@@ -19,6 +20,21 @@ function padrao(Request $request, Response $response, array $args)
 
 function getConn() {
     return new PDO('mysql:host=127.0.0.1;dbname=blog_ps;charset=utf8', 'root', '', [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]);
+}
+
+function getPosts(Request $request, Response $response, array $args) {
+    $conn = getConn();
+    $sql = "SELECT * FROM posts";
+    $stmt = $conn->query($sql);
+    $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    ob_start();
+    extract(['posts' => $posts]);
+    include __DIR__ . '../blog/resources/views/welcome.blade.php';
+    $html = ob_get_clean();
+
+    $response->getBody()->write($html);
+    return $response;
 }
 
 function getLogin(Request $request, Response $response, array $args) {

@@ -48,6 +48,9 @@
     </header>
     <main>
         <div class="container mt-4">
+            @foreach ($posts as $post )
+            
+            @endforeach
                 <section class="">
                     <div class="overflow-hidden">
                         <div class="row d-flex justify-content-center">
@@ -91,7 +94,8 @@
                             </div>
                         </div>
                     </div>
-                </section>      
+                </section>   
+            @endforeach   
         </div>
     </main>
 </body>
