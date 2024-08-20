@@ -23,14 +23,16 @@ function getConn() {
 }
 
 function getPosts(Request $request, Response $response, array $args) {
+    echo"teste";
     $conn = getConn();
-    $sql = "SELECT * FROM posts";
+    $sql = "SELECT * FROM tb_posts";
     $stmt = $conn->query($sql);
     $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     ob_start();
     extract(['posts' => $posts]);
-    include __DIR__ . '../blog/resources/views/welcome.blade.php';
+    // Caminho absoluto para o arquivo Blade que você quer incluir
+    include __DIR__ . '/../blog/resources/views/welcome.blade.php';
     $html = ob_get_clean();
 
     $response->getBody()->write($html);
@@ -38,7 +40,7 @@ function getPosts(Request $request, Response $response, array $args) {
 }
 
 function getLogin(Request $request, Response $response, array $args) {
-    $html = file_get_contents(__DIR__ . '/../resources/views/login.blade.php');
+    $html = file_get_contents(__DIR__ . '../blog/resources/views/login.blade.php');
     $response->getBody()->write($html);
     return $response;
 }
@@ -55,8 +57,6 @@ function login(Request $request, Response $response, array $args) {
     $stmt->bindParam(':senha', $senha);
     $stmt->execute();
     $result = $stmt->fetchObject();
-
-    return 'funciona';
 
         if ($result) {
             $response=['situacao' => 'sucesso', 'nome'=>$result->nm_usuario];

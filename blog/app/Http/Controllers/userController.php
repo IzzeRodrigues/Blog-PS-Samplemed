@@ -10,7 +10,7 @@ class userController extends Controller
 {
   public function getUser(Request $request)
   {
-    $conexao = Http::get('http://localhost/blog-ps-samplemed/api_blog/login', ['nome' => $request->nome, 'senha' => $request->senha]);
+    $conexao = Http::post('http://localhost/blog-ps-samplemed/api_blog/login', ['nome' => $request->nome, 'senha' => $request->senha]);
     $resposta = $conexao->json();
     var_dump($resposta);
     if ($resposta['situacao'] == 'sucesso') {

@@ -49,8 +49,6 @@
     <main>
         <div class="container mt-4">
             @foreach ($posts as $post )
-            
-            @endforeach
                 <section class="">
                     <div class="overflow-hidden">
                         <div class="row d-flex justify-content-center">
@@ -60,14 +58,11 @@
                                         <div class="card-body border bg-white p-4">
                                             <div class="mb-3">
                                                 <h2 class="card-title h4">
-                                                    <a class="link-dark text-decoration-none" href="#!">Critical Steps
-                                                        for Buying a Business</a>
+                                                {{ $post['nm_usuario'] }}
                                                 </h2>
                                             </div>
                                             <p class="card-text entry-summary text-secondary mb-3">
-                                                Buying an existing business can be an exciting experience for
-                                                entrepreneurs. Before you decide whether to pursue this endeavor, it's
-                                                essential to understand the process of purchasing a business.
+                                            {{ $post['nm_post'] }}
                                             </p>
                                         </div>
                                         <div class="card-footer border border-top-0 bg-light p-4">
@@ -83,7 +78,7 @@
                                                             <path
                                                                 d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
                                                         </svg>
-                                                        <span class="ms-2 fs-7">7 Feb 2024</span>
+                                                        <!-- <span class="ms-2 fs-7">Publicado em {{ date('d M Y', strtotime($post['dt_post'])) }}</span> -->
                                                     </a>
                                                 </li>
                                             

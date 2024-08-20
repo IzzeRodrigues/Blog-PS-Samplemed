@@ -17,4 +17,6 @@ Route::get('/registrar', function () {
 
 Route::post('Logar', [userController::class,'getUser'])->name('Logar');
 
+Route::get('/posts', [userController::class, 'getPosts'])->name('posts');
+
 // Route::post('/criar-post', [PostController::class, 'store'])->name('criarPost');
