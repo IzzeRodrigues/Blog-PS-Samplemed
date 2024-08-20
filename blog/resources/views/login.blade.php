@@ -18,7 +18,7 @@
         alert(decodeURIComponent(alertMessage));
     }
 </script>
-<form action="{{route('Logar')}}" method="POST" class="d-flex flex-column align-items-center mt-5">
+<form action="{{route('Logar')}}" method="GET" class="d-flex flex-column align-items-center mt-5">
     @csrf
     <h3>Bem vindo! Entre com seu usuário.</h3>
     <div class="container mt-5 w-50">

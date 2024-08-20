@@ -15,7 +15,7 @@ Route::get('/registrar', function () {
     return view('registrar');
 });
 
-Route::post('Logar', [userController::class,'getUser'])->name('Logar');
+Route::post('/Logar', [userController::class,'getUser'])->name('Logar');
 
 Route::get('/posts', [userController::class, 'getPosts'])->name('posts');
 

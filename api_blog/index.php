@@ -8,7 +8,6 @@ require './vendor/autoload.php';
 $app = new \Slim\App;
 
 $app->get('/','padrao');
-$app->get('/pegarLogin', 'getLogin');
 $app->get('/login', 'login');
 $app->get('/posts', 'getPosts');
 
@@ -23,26 +22,13 @@ function getConn() {
 }
 
 function getPosts(Request $request, Response $response, array $args) {
-    echo"teste";
     $conn = getConn();
     $sql = "SELECT * FROM tb_posts";
     $stmt = $conn->query($sql);
     $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    ob_start();
-    extract(['posts' => $posts]);
-    // Caminho absoluto para o arquivo Blade que você quer incluir
-    include __DIR__ . '/../blog/resources/views/welcome.blade.php';
-    $html = ob_get_clean();
-
-    $response->getBody()->write($html);
-    return $response;
-}
-
-function getLogin(Request $request, Response $response, array $args) {
-    $html = file_get_contents(__DIR__ . '../blog/resources/views/login.blade.php');
-    $response->getBody()->write($html);
-    return $response;
+    $response->getBody()->write(json_encode($posts));
+    return $response->withHeader('Content-Type', 'application/json');
 }
 
 function login(Request $request, Response $response, array $args) {
@@ -66,7 +52,6 @@ function login(Request $request, Response $response, array $args) {
             $response=['situacao' => 'fracasso'];
             return $response;
         }
-
 }
 
 $app->run();
