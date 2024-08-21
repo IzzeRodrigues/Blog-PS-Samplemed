@@ -6,20 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="style" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
-
+    <style>
+        .vertical-line {
+            border-left: 1px solid #ccc;
+            height: 100vh;
+            position: absolute;
+        }
+        .scroll-to-top {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            display: none;
+            z-index: 1000;
+        }
+        .position-fixed-bottom-left {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 
-<body class="font-sans antialiased dark:bg-black dark:text-white/50">
+<body class="">
     <header>
-
         <div class="container mt-3">
-            <div class="row py-3 align-items-center justify-content-center">
-                <div class="col-md-3 col align-self-start">
-                    <img src="{{ asset('assets/samplemed-logo-horizontal-rgb.png') }}" class="img-fluid" alt="Logo"
-                        style="max-width: 200px;">
+            <div class="row py-3">
+                <div class="col-md-3">
+                    <div class="d-flex justify-content-center">
+                        <div class="align-self-start">
+                            <img src="{{ asset('assets/samplemed-logo-horizontal-rgb.png') }}" class="img-fluid "
+                                alt="Logo" style="max-width: 200px;">
+                        </div>
+                    </div>
+
                 </div>
 
-                @if (session('user'))
+            @if (session('user'))
+                    
                     <div class="col-md-6">
                         <form action="" method="POST" enctype="multipart/form-data">
                             @csrf
@@ -31,14 +55,24 @@
                             <button class="btn btn-primary w-100" type="submit">Enviar</button>
                         </form>
                     </div>
-                    <div class="col-md-3 col align-self-start">
+                        <div class="col-md-6 row">
+                            <div class="align-self-end" style=" height: 100;">
+                                <div class="d-flex justify-content-center">
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger">Sair</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="col-md-3 align-self-start">
                         <div class="d-flex justify-content-end ">
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                                     class="bi bi-person-circle" viewBox="0 0 16 16">
                                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
                                     <path fill-rule="evenodd"
-                                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                                 </svg>
                             </div>
                             <div>
@@ -56,7 +90,6 @@
                 @endif
             </div>
         </div>
-
     </header>
     <main>
         <div class="container mt-4">
@@ -95,18 +128,26 @@
                                     </div>
                                 </div>
                             </article>
-
+                            <button class="btn btn-primary scroll-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">Voltar ao Topo</button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                @csrf
-                <button type="submit" class="btn btn-danger">Sair</button>
-            </form>
         </div>
+
     </main>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    window.addEventListener('scroll', function() {
+        const scrollButton = document.querySelector('.scroll-to-top');
+        if (window.scrollY > 200) {
+            scrollButton.style.display = 'block';
+        } else {
+            scrollButton.style.display = 'none';
+        }
+    });
+</script>
 </body>
 
 </html>
