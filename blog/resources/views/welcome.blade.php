@@ -11,51 +11,51 @@
 
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
     <header>
- 
+
         <div class="container mt-3">
-        <div class="row py-3 align-items-center justify-content-center">
-            <div class="col-md-3 col align-self-start">
-                <img src="{{ asset('assets/samplemed-logo-horizontal-rgb.png') }}" class="img-fluid" alt="Logo"
-                    style="max-width: 200px;">
-            </div>
-           
-            @if (session('user'))
-                <div class="col-md-6">
-                    <form action="" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <label class="form-label fw-bold">Olá, {{ session('user')['nome'] }}!</label>
-                        <textarea id="postContent" name="content" class="form-control mb-2"
-                            placeholder="Escreva a Descrição do post"
-                            style="font-size: 1.2rem; height: 100px;"></textarea>
-                        <input type="file" name="image" class="form-control mb-2" alt="Imagem do Post">
-                        <button class="btn btn-primary w-100" type="submit">Enviar</button>
-                    </form>
-                </div>
+            <div class="row py-3 align-items-center justify-content-center">
                 <div class="col-md-3 col align-self-start">
-                    <div class="d-flex justify-content-end ">
-                        <div>   
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                                class="bi bi-person-circle" viewBox="0 0 16 16">
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                                <path fill-rule="evenodd"
-                                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="mb-0 fw-bold fs-5 ms-2">{{ session('user')['nome'] }}</p>
+                    <img src="{{ asset('assets/samplemed-logo-horizontal-rgb.png') }}" class="img-fluid" alt="Logo"
+                        style="max-width: 200px;">
+                </div>
+
+                @if (session('user'))
+                    <div class="col-md-6">
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <label class="form-label fw-bold">Olá, {{ session('user')['nome'] }}!</label>
+                            <textarea id="postContent" name="content" class="form-control mb-2"
+                                placeholder="Escreva a Descrição do post"
+                                style="font-size: 1.2rem; height: 100px;"></textarea>
+                            <input type="file" name="image" class="form-control mb-2" alt="Imagem do Post">
+                            <button class="btn btn-primary w-100" type="submit">Enviar</button>
+                        </form>
+                    </div>
+                    <div class="col-md-3 col align-self-start">
+                        <div class="d-flex justify-content-end ">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                    class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                    <path fill-rule="evenodd"
+                                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="mb-0 fw-bold fs-5 ms-2">{{ session('user')['nome'] }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @else
-                <div class="col-md-6 text-center fs-3">
-                    <p>Cadastre-se para poder postar</p>
-                </div>
-                <div class="col-md-6 text-end">
-                    <a href="/login" class="btn btn-primary">Login</a>
-                </div>
-            @endif
+                @else
+                    <div class="col-md-6 text-center fs-3">
+                        <p>Cadastre-se para poder postar</p>
+                    </div>
+                    <div class="col-md-3 text-end">
+                        <a href="/login" class="btn btn-primary">Login</a>
+                    </div>
+                @endif
+            </div>
         </div>
-</div>
 
     </header>
     <main>
@@ -100,6 +100,11 @@
                     </div>
                 </div>
             </section>
+
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-danger">Sair</button>
+            </form>
         </div>
     </main>
 </body>
