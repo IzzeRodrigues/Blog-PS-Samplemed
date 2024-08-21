@@ -12,4 +12,7 @@ class routeController extends Controller
     public function registrar(){
         return view('registrar');
     }
+    public function welcome(){
+        return view('welcome');
+    }
 }

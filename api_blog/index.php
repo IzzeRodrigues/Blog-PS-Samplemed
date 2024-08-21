@@ -8,8 +8,10 @@ require './vendor/autoload.php';
 $app = new \Slim\App;
 
 $app->get('/','padrao');
-$app->get('/login', 'login');
 $app->get('/posts', 'getPosts');
+$app->post('/login', 'login');
+$app->post('/pegarLogin', 'getLogin');
+
 
 function padrao(Request $request, Response $response, array $args)
 {
@@ -30,7 +32,11 @@ function getPosts(Request $request, Response $response, array $args) {
     $response->getBody()->write(json_encode($posts));
     return $response->withHeader('Content-Type', 'application/json');
 }
-
+function getLogin(Request $request, Response $response, array $args) {
+    $html = file_get_contents(__DIR__ . '/../resources/views/login.blade.php');
+    $response->getBody()->write($html);
+    return $response;
+}
 function login(Request $request, Response $response, array $args) {
     $usuario = $request->getParsedBody();
     $nome = $usuario['nome'] ?? '';
@@ -45,13 +51,16 @@ function login(Request $request, Response $response, array $args) {
     $result = $stmt->fetchObject();
 
         if ($result) {
-            $response=['situacao' => 'sucesso', 'nome'=>$result->nm_usuario];
-            return $response;
+            $resposta=['situacao' => 'sucesso', 'nome'=>$result->nm_usuario];
+            $response->getBody()->write(json_encode($resposta));
+            return $response->withHeader('Content-Type', 'application/json');
         } else {
             
-            $response=['situacao' => 'fracasso'];
-            return $response;
+            $resposta=['situacao' => 'fracasso'];
+            $response->getBody()->write(json_encode($resposta));
+            return $response->withHeader('Content-Type', 'application/json');
         }
+        
 }
 
 $app->run();

@@ -42,7 +42,6 @@
         <button type="submit" class="btn btn-primary btn-block mb-4 w-100">Logar</button>
         <div class="text-center w-100">
             <p>Não possui conta? <a href="/registrar">Registre-se</a></p>
-    
         </div>
     </div>
 </form>
