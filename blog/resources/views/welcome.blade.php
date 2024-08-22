@@ -37,15 +37,16 @@
                             @csrf
                             <label class="form-label fw-bold">Olá, {{ session('user')['nome'] }}!</label>
                         </form>
-                        
-                            <form action="{{route('criarPost')}}">
+
+                            <form action="{{route('criarPost')}}" method="GET">
+                                @csrf
+                                <input type="hidden" name="nome" value="{{ session('user')['nome'] }}"/>
                                 <textarea id="desc" name="desc" class="form-control mb-2"
                                     placeholder="Escreva a Descrição do post"
                                     style="font-size: 1.2rem; height: 100px;"></textarea>
                                 <input type="file" name="img" id="img" class="form-control mb-2" alt="Imagem do Post">
                                 <button class="btn btn-primary w-100" type="submit">Enviar</button>
                             </form>
-                        
                     </div>
 
                     <div class="col-md-3 d-flex justify-content-end">

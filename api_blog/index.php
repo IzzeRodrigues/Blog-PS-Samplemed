@@ -9,7 +9,7 @@ $app = new \Slim\App;
 
 $app->get('/','padrao');
 $app->get('/posts', 'getPosts');
-$app->post('/postar', 'setPosts');
+$app->get('/postar', 'setPosts');
 
 $app->post('/login', 'login');
 $app->post('/pegarLogin', 'getLogin');
@@ -47,30 +47,31 @@ function setPosts(Request $request, Response $response, array $args){
         $img = $post['img'] ?? '';
         $nome = $post['nome'] ?? '';
 
-        $data = new DateTime();
-        $data = $data->format('Y-m-d');
+       $data = (new DateTime())->format('Y-m-d');
 
     $conn = getConn();
-    $sql = "INSERT INTO tb_posts (nm_post, img_post, dt_post, cd_usuario)
-            VALUES ('$desc', '$img', '$data', 
-            (SELECT id_usuario FROM tb_usuario WHERE nm_usuario = '$nome'))";
-
+    $sql = "SELECT nm_usuario FROM tb_usuario WHERE nm_usuario=$post[nm_usuario]";
     $stmt = $conn->prepare($sql);
-        // $stmt->bindParam(':desc', $desc);
-        // $stmt->bindParam(':img', $img);
-        // $stmt->bindParam(':data', $data);
-        // $stmt->bindParam(':nome', $nome);
     $stmt->execute();
-    // $post = $stmt->fetchAll();
-    // dd($stmt);
-    if($stmt){
-    $response->getBody()->write(json_encode(['situacao' => 'sucesso']));
-    return $response->withHeader('Content-Type', 'application/json');
-    } else {
-        $response->getBody()->write(json_encode(['situacao' => 'fracasso']));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+    $nome = $stmt->fetchObject();
+
+   
+    // $sql = "INSERT INTO tb_posts ( img_post,nm_post, dt_post, cd_usuario)
+    //         VALUES ( '$img', '$desc','$data','$nome')";
+
+    // $stmt = $conn->prepare($sql);
+    // $stmt->execute();
+
+    dd($stmt);
+    // if($stmt){
+    // $response->getBody()->write(json_encode(['situacao' => 'sucesso']));
+    // return $response->withHeader('Content-Type', 'application/json');
+    // } else {
+    //     $response->getBody()->write(json_encode(['situacao' => 'fracasso']));
+    //     return $response->withHeader('Content-Type', 'application/json');
+    // }
 }
+
 function getLogin(Request $request, Response $response, array $args) {
     $html = file_get_contents(__DIR__ . '/../resources/views/login.blade.php');
     $response->getBody()->write($html);

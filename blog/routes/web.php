@@ -15,6 +15,8 @@ Route::post('/logout', [userController::class, 'logout'])->name('logout');
 Route::get('/registrar', function () {return view('registrar');})->name('registrar');
 Route::post('/registro', [userController::class, 'setUser'])->name('registro');
 
-Route::post('/postar', [PostController::class, 'setPost'])->name('criarPost');
+Route::get('/criar-post', [PostController::class, 'setPost'])->name('criarPost');
+
+//  Route::get('/postar', function () {return view('welcome');})->name('postar');
 // Route::get('/criarPost', function () {return view('criar');})->name('criar');
 
