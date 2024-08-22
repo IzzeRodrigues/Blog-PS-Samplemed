@@ -8,9 +8,11 @@ require './vendor/autoload.php';
 $app = new \Slim\App;
 
 $app->get('/','padrao');
-$app->get('/posts/{id}', 'getPosts');
+$app->get('/posts', 'getPosts');
 $app->post('/login', 'login');
 $app->post('/pegarLogin', 'getLogin');
+$app->post('/registrar', 'setUser');
+
 
 
 function padrao(Request $request, Response $response, array $args)
@@ -24,17 +26,17 @@ function getConn() {
 }
 
 function getPosts(Request $request, Response $response, array $args) {
-    $id = $args['id'] ?? '';
-    $id = (int)$id;
+    // $id = $args['id'] ?? '';
+    // $id = (int)$id;
     $conn = getConn();
 
-    $sql = "SELECT * FROM tb_posts WHERE id_post = :id";
+    $sql = "SELECT nm_post, img_post, dt_post, nm_usuario  FROM tb_posts INNER JOIN tb_usuario ON tb_posts.cd_usuario=tb_usuario.id_usuario";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam('id', $id, PDO::PARAM_INT);
+    // $stmt->bindParam('id', $id, PDO::PARAM_INT);
 
     $stmt->execute();
-    $post = $stmt->fetchObject();
+    $post = $stmt->fetchAll();
 
     // var_dump($id);
     // var_dump($post);
@@ -78,6 +80,32 @@ function login(Request $request, Response $response, array $args) {
             return $response->withHeader('Content-Type', 'application/json');
         }
         
+}
+function setUser(Request $request, Response $response, array $args){
+    $usuario = $request->getParsedBody();
+        $nome = $usuario['nome'] ?? '';
+        $senha = $usuario['senha'] ?? '';
+        $email = $usuario['email'] ?? '';
+
+    $conn = getConn();
+    $sql = "INSERT INTO tb_usuario(nm_usuario, nm_email, cd_senha) VALUES('$nome', '$senha', '$email')";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':nome', $nome);
+    $stmt->bindParam(':senha', $senha);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+    $result = $stmt->fetchObject();
+
+    if ($result) {
+        $resposta=['situacao' => 'sucesso'];
+        $response->getBody()->write(json_encode($resposta));
+        return $response->withHeader('Content-Type', 'application/json');
+    }else{
+        $resposta=['situacao' => 'fracasso'];
+        $response->getBody()->write(json_encode($resposta));
+        return $response->withHeader('Content-Type', 'application/json');
+    }
 }
 
 $app->run();

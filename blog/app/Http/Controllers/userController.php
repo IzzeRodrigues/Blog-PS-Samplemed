@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class userController extends Controller
 {
-  
 
   public function logout(Request $request)
   {
@@ -42,6 +41,11 @@ class userController extends Controller
       return redirect()->route('login');
     }
 
+  }
+
+  public function setUser(Request $request)
+  {
+    
   }
 
 }

@@ -87,18 +87,28 @@
                 <div class="overflow-hidden">
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-6">
-                            @if(session('post'))
-                            <article>
-                                <div class="card border-0">
+
+                           <?php 
+    
+                           $conexao = Http::get('http://localhost/blog-ps-samplemed/api_blog/posts');
+                           $body = $conexao->json(); 
+
+                            session_start();
+                            $_SESSION['post'] = $body;
+                           
+                           ?>
+                       <article>
+                        @foreach($_SESSION['post'] as $post)
+                        <div class="card border-0 my-5">
                                     <div class="card-body border bg-white p-4">
                                         <div class="mb-3">
                                             <h2 class="card-title h4">
-                                            {{ session('post')['usuario'] }}
+                                            {{ $post['nm_usuario'] }}
                                             </h2>
                                         </div>
-                                        <img src="{{ session('post')['img'] }}" alt="">
+                                        <img src="{{ $post['img_post'] }}" alt="">
                                         <p class="card-text entry-summary text-secondary mb-3">
-                                        {{ session('post')['descricao'] }}
+                                        {{ $post['nm_post'] }}
                                         </p>
                                     </div>
                                     <div class="card-footer border border-top-0 bg-light p-4">
@@ -112,15 +122,15 @@
                                                         <path
                                                             d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
                                                     </svg>
-                                                    <span class="ms-2 fs-7">Publicado em {{ session('post')['data'] }}</span>
+                                                    <span class="ms-2 fs-7">Publicado em {{ $post['dt_post'] }}</span>
                                                 </p>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
+                                @endforeach
                             </article>
-                            @endif                           
-                            <button class="btn btn-primary scroll-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">Voltar ao Topo</button>
+                          <button class="btn btn-primary scroll-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">Voltar ao Topo</button>
                         </div>
                     </div>
                 </div>

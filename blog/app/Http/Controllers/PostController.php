@@ -14,6 +14,8 @@ class PostController extends Controller
     $conexao = Http::get('http://localhost/blog-ps-samplemed/api_blog/posts/' . $postId);
     $body = $conexao->json();
 
+    dd($body);
+
     if ($conexao->successful() && !empty($body)) {
             session_start();
 

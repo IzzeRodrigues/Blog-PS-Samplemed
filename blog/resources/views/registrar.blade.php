@@ -21,10 +21,10 @@
             <input type="password" id="form2Example2" class="form-control" />
             <label class="form-label" for="form2Example2">Senha</label>
         </div>
-        <div class="form-outline mb-4 w-100">
+        <!-- <div class="form-outline mb-4 w-100">
             <input type="password" id="form2Example2" class="form-control" />
             <label class="form-label" for="form2Example2">Foto de perfil</label>
-        </div>
+        </div> -->
         <button type="button" class="btn btn-primary btn-block mb-4 w-100">Cadastrar</button>
     </div>
 </form>

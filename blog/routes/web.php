@@ -7,9 +7,7 @@ Route::get('/', function () {return view('welcome');})->name('welcome');
 
 Route::get('/login', function () {return view('login');})->name('login');
 
-Route::get('/registrar', function () {
-    return view('registrar');
-});
+Route::post('/registrar', function () {return view('registrar');})->name('registrar');
 
 Route::post('/Logar', [userController::class,'getUser'])->name('Logar');
 
