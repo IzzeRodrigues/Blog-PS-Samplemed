@@ -18,7 +18,6 @@ class PostController extends Controller
 
     if ($conexao->successful() && !empty($body)) {
             session_start();
-
             session(['post' => [
               'usuario' => $body['nm_usuario'],
               'descricao' => $body['nm_post'],
@@ -31,6 +30,25 @@ class PostController extends Controller
         setcookie('alert_message', 'Não foi possível obter os dados do post. Tente novamente.', time() + 10);
         return redirect()->route('welcome');
     }
+}
+public function setPost(Request $request){
+  {
+    $dados = [
+      'nome' => $request->nome,
+      'img' => $request->img,
+      'desc' => $request->desc,
+    ];
+
+    $conexao = Http::post('http://localhost/blog-ps-samplemed/api_blog/postar',$dados);
+    $body = $conexao->json();
+
+    if ($body['situacao'] == "sucesso"){
+      return redirect()->route('login');
+    }  else if($body['situacao'] == 'fracasso') {
+      setcookie('alert_message1', 'Problema ao registrar. Tente novamente.', time() + 10, );
+      return redirect()->route('registrar');
+    }
+  }
 }
 
 }

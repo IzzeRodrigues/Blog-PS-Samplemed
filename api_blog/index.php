@@ -9,6 +9,8 @@ $app = new \Slim\App;
 
 $app->get('/','padrao');
 $app->get('/posts', 'getPosts');
+$app->post('/postar', 'setPosts');
+
 $app->post('/login', 'login');
 $app->post('/pegarLogin', 'getLogin');
 $app->post('/registrar', 'setUser');
@@ -19,7 +21,8 @@ function padrao(Request $request, Response $response, array $args)
     return $padrao;
 }
 
-function getConn() {
+function getConn() 
+{
     return new PDO('mysql:host=127.0.0.1;dbname=blog_ps;charset=utf8', 'root', '', [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]);
 }
 
@@ -35,8 +38,38 @@ function getPosts(Request $request, Response $response, array $args) {
     } else {
         $response->getBody()->write(json_encode(['situacao' => 'fracasso']));
         return $response->withHeader('Content-Type', 'application/json');
+    } 
+}
+
+function setPosts(Request $request, Response $response, array $args){
+    $post = $request->getParsedBody();
+        $desc = $post['desc'] ?? '';
+        $img = $post['img'] ?? '';
+        $nome = $post['nome'] ?? '';
+
+        $data = new DateTime();
+        $data = $data->format('Y-m-d');
+
+    $conn = getConn();
+    $sql = "INSERT INTO tb_posts (nm_post, img_post, dt_post, cd_usuario)
+            VALUES ('$desc', '$img', '$data', 
+            (SELECT id_usuario FROM tb_usuario WHERE nm_usuario = '$nome'))";
+
+    $stmt = $conn->prepare($sql);
+        // $stmt->bindParam(':desc', $desc);
+        // $stmt->bindParam(':img', $img);
+        // $stmt->bindParam(':data', $data);
+        // $stmt->bindParam(':nome', $nome);
+    $stmt->execute();
+    // $post = $stmt->fetchAll();
+    // dd($stmt);
+    if($stmt){
+    $response->getBody()->write(json_encode(['situacao' => 'sucesso']));
+    return $response->withHeader('Content-Type', 'application/json');
+    } else {
+        $response->getBody()->write(json_encode(['situacao' => 'fracasso']));
+        return $response->withHeader('Content-Type', 'application/json');
     }
-    
 }
 function getLogin(Request $request, Response $response, array $args) {
     $html = file_get_contents(__DIR__ . '/../resources/views/login.blade.php');
