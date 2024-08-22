@@ -111,7 +111,9 @@
                                             {{ $post['nm_usuario'] }}
                                             </h2>
                                         </div>
-                                        <img src="{{ $post['img_post'] }}" alt="">
+                                        @if($post['img_post'])
+                                            <img src="data:image/jpeg;base64,{{ base64_encode($post['img_post'])}}"  width="100" height="100">
+                                        @endif
                                         <p class="card-text entry-summary text-secondary mb-3">
                                         {{ $post['nm_post'] }}
                                         </p>

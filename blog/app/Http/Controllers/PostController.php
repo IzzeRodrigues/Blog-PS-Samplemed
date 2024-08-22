@@ -18,10 +18,11 @@ class PostController extends Controller
 
     if ($conexao->successful() && !empty($body)) {
             session_start();
+            $imgBase64 = base64_encode($body['img_post']);
             session(['post' => [
               'usuario' => $body['nm_usuario'],
               'descricao' => $body['nm_post'],
-              'img' => $body['img_post'],
+              'img' => $imgBase64,
               'data' => $body['dt_post'],
           ]]);
           return redirect()->route('welcome');
