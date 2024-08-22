@@ -7,11 +7,6 @@
     <link rel="style" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
     <style>
-        .vertical-line {
-            border-left: 1px solid #ccc;
-            height: 100vh;
-            position: absolute;
-        }
         .scroll-to-top {
             position: fixed;
             bottom: 10px;
@@ -19,30 +14,23 @@
             display: none;
             z-index: 1000;
         }
-        .position-fixed-bottom-left {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-        }
     </style>
 </head>
 
-<body class="">
+<body>
     <header>
         <div class="container mt-3">
-            <div class="row py-3">
+            <div class="row">
                 <div class="col-md-3">
                     <div class="d-flex justify-content-center">
                         <div class="align-self-start">
                             <img src="{{ asset('assets/samplemed-logo-horizontal-rgb.png') }}" class="img-fluid "
-                                alt="Logo" style="max-width: 200px;">
+                            alt="Logo" style="max-width: 200px;">
                         </div>
                     </div>
-
                 </div>
 
-            @if (session('user'))
+                @if (session('user'))
                     
                     <div class="col-md-6">
                         <form action="" method="POST" enctype="multipart/form-data">
@@ -55,18 +43,9 @@
                             <button class="btn btn-primary w-100" type="submit">Enviar</button>
                         </form>
                     </div>
-                        <div class="col-md-6 row">
-                            <div class="align-self-end" style=" height: 100;">
-                                <div class="d-flex justify-content-center">
-                                    <form action="{{ route('logout') }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger">Sair</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    <div class="col-md-3 align-self-start">
-                        <div class="d-flex justify-content-end ">
+
+                    <div class="col-md-3 d-flex justify-content-end">
+                        <div class="align-self-start d-flex">
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                                     class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -80,13 +59,24 @@
                             </div>
                         </div>
                     </div>
+                       <div class="col-md-3 d-flex flex-column">
+                            <div class="d-flex justify-content-center" >
+                                <div class="align-self-end">
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger">Sair</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                 @else
-                    <div class="col-md-6 text-center fs-3">
-                        <p>Cadastre-se para poder postar</p>
-                    </div>
-                    <div class="col-md-3 text-end">
-                        <a href="/login" class="btn btn-primary">Login</a>
-                    </div>
+    
+                <div class="col-md-6 text-center fs-3">
+                    <p>Cadastre-se para poder postar</p>
+                </div>
+                <div class="col-md-3 text-end">
+                    <a href="/login" class="btn btn-primary">Login</a>
+                </div>
                 @endif
             </div>
         </div>
@@ -97,23 +87,24 @@
                 <div class="overflow-hidden">
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-6">
+                            @if(session('post'))
                             <article>
                                 <div class="card border-0">
                                     <div class="card-body border bg-white p-4">
                                         <div class="mb-3">
                                             <h2 class="card-title h4">
-                                                teste
+                                            {{ session('post')['usuario'] }}
                                             </h2>
                                         </div>
+                                        <img src="{{ session('post')['img'] }}" alt="">
                                         <p class="card-text entry-summary text-secondary mb-3">
-                                            teste
+                                        {{ session('post')['descricao'] }}
                                         </p>
                                     </div>
                                     <div class="card-footer border border-top-0 bg-light p-4">
                                         <ul class="entry-meta list-unstyled d-flex align-items-center m-0">
                                             <li>
-                                                <a class="fs-7 link-secondary text-decoration-none d-flex align-items-center"
-                                                    href="#!">
+                                                <p class="fs-7 link-secondary text-decoration-none d-flex align-items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
                                                         fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
                                                         <path
@@ -121,13 +112,14 @@
                                                         <path
                                                             d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
                                                     </svg>
-                                                    <span class="ms-2 fs-7">Publicado em </span>
-                                                </a>
+                                                    <span class="ms-2 fs-7">Publicado em {{ session('post')['data'] }}</span>
+                                                </p>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                             </article>
+                            @endif                           
                             <button class="btn btn-primary scroll-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">Voltar ao Topo</button>
                         </div>
                     </div>

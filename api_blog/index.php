@@ -8,7 +8,7 @@ require './vendor/autoload.php';
 $app = new \Slim\App;
 
 $app->get('/','padrao');
-$app->get('/posts', 'getPosts');
+$app->get('/posts/{id}', 'getPosts');
 $app->post('/login', 'login');
 $app->post('/pegarLogin', 'getLogin');
 
@@ -24,13 +24,30 @@ function getConn() {
 }
 
 function getPosts(Request $request, Response $response, array $args) {
+    $id = $args['id'] ?? '';
+    $id = (int)$id;
     $conn = getConn();
-    $sql = "SELECT * FROM tb_posts";
-    $stmt = $conn->query($sql);
-    $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $response->getBody()->write(json_encode($posts));
-    return $response->withHeader('Content-Type', 'application/json');
+    $sql = "SELECT * FROM tb_posts WHERE id_post = :id";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam('id', $id, PDO::PARAM_INT);
+
+    $stmt->execute();
+    $post = $stmt->fetchObject();
+
+    // var_dump($id);
+    // var_dump($post);
+
+    if ($post) {
+        $response->getBody()->write(json_encode($post));
+        return $response->withHeader('Content-Type', 'application/json');
+    } else {
+        $response->getBody()->write(json_encode(['situacao' => 'fracasso']));
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    
 }
 function getLogin(Request $request, Response $response, array $args) {
     $html = file_get_contents(__DIR__ . '/../resources/views/login.blade.php');

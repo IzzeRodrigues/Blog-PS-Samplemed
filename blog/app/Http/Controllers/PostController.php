@@ -8,16 +8,27 @@ use Illuminate\Http\RedirectResponse;
 // use App\Http\Controllers\Session;
 class PostController extends Controller
 {
-   public function getPosts()
-  {
-    $response = Http::get('http://localhost/blog-ps-samplemed/api_blog/posts');
-    $posts = $response->json();
-    dd($posts);
-    if ($response->successful()) {
-      return view('welcome', ['posts' => $posts]);
-    } 
-    else {
-      return redirect('/')->route('welcome')->with('error', 'Não foi possível carregar os posts.');
+  public function getPosts(Request $request)
+{
+    $postId = $request->input('id');
+    $conexao = Http::get('http://localhost/blog-ps-samplemed/api_blog/posts/' . $postId);
+    $body = $conexao->json();
+
+    if ($conexao->successful() && !empty($body)) {
+            session_start();
+
+            session(['post' => [
+              'usuario' => $body['nm_usuario'],
+              'descricao' => $body['nm_post'],
+              'img' => $body['img_post'],
+              'data' => $body['dt_post'],
+          ]]);
+          return redirect()->route('welcome');
+        }  
+     else {
+        setcookie('alert_message', 'Não foi possível obter os dados do post. Tente novamente.', time() + 10);
+        return redirect()->route('welcome');
     }
-  }
+}
+
 }
