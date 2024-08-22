@@ -9,7 +9,7 @@ $app = new \Slim\App;
 
 $app->get('/','padrao');
 $app->get('/posts', 'getPosts');
-$app->get('/postar', 'setPosts');
+$app->post('/postar', 'setPosts');
 
 $app->post('/login', 'login');
 $app->post('/pegarLogin', 'getLogin');
@@ -49,29 +49,26 @@ function setPosts(Request $request, Response $response, array $args){
 
        $data = (new DateTime())->format('Y-m-d');
 
-       dd($post);
+       $conn = getConn();
+       $sql = "SELECT id_usuario FROM tb_usuario WHERE nm_usuario=:nome";
+       $stmt = $conn->prepare($sql);
+       $stmt->bindParam(':nome', $nome);
+       $stmt->execute();
+       $nome = $stmt->fetchObject();
 
-    // $conn = getConn();
-    // $sql = "SELECT nm_usuario FROM tb_usuario WHERE nm_usuario=$nome";
-    // $stmt = $conn->prepare($sql);
-    // $stmt->execute();
-    // $nome = $stmt->fetchObject();
+    $sql = "INSERT INTO tb_posts ( img_post,nm_post, dt_post, cd_usuario) VALUES ( '$img', '$desc','$data',$nome->id_usuario)";
 
-   
-    // $sql = "INSERT INTO tb_posts ( img_post,nm_post, dt_post, cd_usuario)
-    //         VALUES ( '$img', '$desc','$data','$nome')";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
 
-    // $stmt = $conn->prepare($sql);
-    // $stmt->execute();
 
-    // dd($nome);
-    // if($stmt){
-    // $response->getBody()->write(json_encode(['situacao' => 'sucesso']));
-    // return $response->withHeader('Content-Type', 'application/json');
-    // } else {
-    //     $response->getBody()->write(json_encode(['situacao' => 'fracasso']));
-    //     return $response->withHeader('Content-Type', 'application/json');
-    // }
+    if($stmt){
+    $response->getBody()->write(json_encode(['situacao' => 'sucesso']));
+    return $response->withHeader('Content-Type', 'application/json');
+    } else {
+        $response->getBody()->write(json_encode(['situacao' => 'fracasso']));
+        return $response->withHeader('Content-Type', 'application/json');
+    }
 }
 
 function getLogin(Request $request, Response $response, array $args) {

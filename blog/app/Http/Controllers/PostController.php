@@ -39,17 +39,15 @@ public function setPost(Request $request){
       'desc' => $request->desc,
     ];
 
-    $conexao = Http::get('http://localhost/blog-ps-samplemed/api_blog/postar',$dados);
+    $conexao = Http::post('http://localhost/blog-ps-samplemed/api_blog/postar',$dados);
     $body = $conexao->json();
-    
-    dd($body);
-
-    // if ($body['situacao'] == "sucesso"){
-    //   return redirect()->route('login');
-    // }  else if($body['situacao'] == 'fracasso') {
-    //   setcookie('alert_message1', 'Problema ao registrar. Tente novamente.', time() + 10, );
-    //   return redirect()->route('registrar');
-    // }
+    // dd($body);
+    if ($body['situacao'] == "sucesso"){
+      return redirect()->route('welcome');
+    }  else if($body['situacao'] == 'fracasso') {
+      setcookie('alert_message1', 'Problema ao registrar. Tente novamente.', time() + 10, );
+      return redirect()->route('welcome');
+    }
   }
 }
 
