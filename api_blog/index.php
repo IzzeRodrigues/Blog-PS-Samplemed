@@ -26,21 +26,11 @@ function getConn() {
 }
 
 function getPosts(Request $request, Response $response, array $args) {
-    // $id = $args['id'] ?? '';
-    // $id = (int)$id;
     $conn = getConn();
-
     $sql = "SELECT nm_post, img_post, dt_post, nm_usuario  FROM tb_posts INNER JOIN tb_usuario ON tb_posts.cd_usuario=tb_usuario.id_usuario";
-
     $stmt = $conn->prepare($sql);
-    // $stmt->bindParam('id', $id, PDO::PARAM_INT);
-
     $stmt->execute();
     $post = $stmt->fetchAll();
-
-    // var_dump($id);
-    // var_dump($post);
-
     if ($post) {
         $response->getBody()->write(json_encode($post));
         return $response->withHeader('Content-Type', 'application/json');
@@ -48,7 +38,6 @@ function getPosts(Request $request, Response $response, array $args) {
         $response->getBody()->write(json_encode(['situacao' => 'fracasso']));
         return $response->withHeader('Content-Type', 'application/json');
     }
-
     
 }
 function getLogin(Request $request, Response $response, array $args) {
@@ -87,25 +76,25 @@ function setUser(Request $request, Response $response, array $args){
         $senha = $usuario['senha'] ?? '';
         $email = $usuario['email'] ?? '';
 
-    $conn = getConn();
-    $sql = "INSERT INTO tb_usuario(nm_usuario, nm_email, cd_senha) VALUES('$nome', '$senha', '$email')";
+        $conn = getConn();
+        $sql = "INSERT INTO tb_usuario(nm_usuario, nm_email, cd_senha) VALUES('$nome', '$senha', '$email')";
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':nome', $nome);
-    $stmt->bindParam(':senha', $senha);
-    $stmt->bindParam(':email', $email);
-    $stmt->execute();
-    $result = $stmt->fetchObject();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':nome', $nome);
+        $stmt->bindParam(':senha', $senha);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $result = $stmt->fetchObject();
 
-    if ($result) {
-        $resposta=['situacao' => 'sucesso'];
-        $response->getBody()->write(json_encode($resposta));
-        return $response->withHeader('Content-Type', 'application/json');
-    }else{
-        $resposta=['situacao' => 'fracasso'];
-        $response->getBody()->write(json_encode($resposta));
-        return $response->withHeader('Content-Type', 'application/json');
-    }
+        if ($result) {
+            $resposta=['situacao' => 'sucesso'];
+            $response->getBody()->write(json_encode($resposta));
+            return $response->withHeader('Content-Type', 'application/json');
+        }else{
+            $resposta=['situacao' => 'fracasso'];
+            $response->getBody()->write(json_encode($resposta));
+            return $response->withHeader('Content-Type', 'application/json');
+        }
 }
 
 $app->run();

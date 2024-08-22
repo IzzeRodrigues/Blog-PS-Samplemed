@@ -6,7 +6,7 @@
     <link rel="style" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
 </head>
-<form class="d-flex flex-column align-items-center mt-5">
+<form action="{{route('registrar')}}" method="POST" class="d-flex flex-column align-items-center mt-5">
     <h3>Crie sua Conta</h3>
     <div class="container mt-5 w-50">
         <div class="form-outline mb-4 w-100">
@@ -21,10 +21,6 @@
             <input type="password" id="form2Example2" class="form-control" />
             <label class="form-label" for="form2Example2">Senha</label>
         </div>
-        <!-- <div class="form-outline mb-4 w-100">
-            <input type="password" id="form2Example2" class="form-control" />
-            <label class="form-label" for="form2Example2">Foto de perfil</label>
-        </div> -->
         <button type="button" class="btn btn-primary btn-block mb-4 w-100">Cadastrar</button>
     </div>
 </form>

@@ -33,7 +33,7 @@
                 @if (session('user'))
                     
                     <div class="col-md-6">
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form action="{{route('Logar')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <label class="form-label fw-bold">Olá, {{ session('user')['nome'] }}!</label>
                             <textarea id="postContent" name="content" class="form-control mb-2"
