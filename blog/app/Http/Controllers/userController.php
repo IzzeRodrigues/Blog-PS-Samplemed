@@ -37,6 +37,7 @@ class userController extends Controller
        session(['user' => ['nome' => $dados['nome']]]);
       return redirect()->route('welcome', $dados['nome']);
     }  else if ($body['situacao'] == 'fracasso') {
+      
       setcookie('alert_message', 'Credenciais inválidas. Tente novamente.', time() + 10, );
       return redirect()->route('login');
     }
@@ -45,14 +46,20 @@ class userController extends Controller
 
   public function setUser(Request $request)
   {
-    $conexao = Http::post('http://localhost/blog-ps-samplemed/api_blog/registrar');
+    $dados = [
+      'nome' => $request->nome,
+      'email' => $request->email,
+      'senha' => $request->senha,
+    ];
+
+    $conexao = Http::post('http://localhost/blog-ps-samplemed/api_blog/registrar',$dados);
     $body = $conexao->json();
 
     if ($body['situacao'] == "sucesso"){
       return redirect()->route('login');
     }  else if($body['situacao'] == 'fracasso') {
-      setcookie('alert_message', 'Problema ao registrar. Tente novamente.', time() + 10, );
-      return redirect()->route('login');
+      setcookie('alert_message1', 'Problema ao registrar. Tente novamente.', time() + 10, );
+      return redirect()->route('registrar');
     }
   }
 

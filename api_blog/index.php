@@ -13,8 +13,6 @@ $app->post('/login', 'login');
 $app->post('/pegarLogin', 'getLogin');
 $app->post('/registrar', 'setUser');
 
-
-
 function padrao(Request $request, Response $response, array $args)
 {
     $padrao = "teste";
@@ -75,26 +73,26 @@ function setUser(Request $request, Response $response, array $args){
         $nome = $usuario['nome'] ?? '';
         $senha = $usuario['senha'] ?? '';
         $email = $usuario['email'] ?? '';
-
         $conn = getConn();
-        $sql = "INSERT INTO tb_usuario(nm_usuario, nm_email, cd_senha) VALUES('$nome', '$senha', '$email')";
-
+        $sql = 'SELECT nm_usuario FROM tb_usuario WHERE nm_usuario =:nome';
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':nome', $nome);
-        $stmt->bindParam(':senha', $senha);
-        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':nome',$nome);
         $stmt->execute();
         $result = $stmt->fetchObject();
-
-        if ($result) {
+        if (!$result) {
+            $sql = "INSERT INTO tb_usuario(nm_usuario, nm_email, cd_senha, img_perfil) VALUES('$nome', '$email','$senha', '')";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
             $resposta=['situacao' => 'sucesso'];
             $response->getBody()->write(json_encode($resposta));
             return $response->withHeader('Content-Type', 'application/json');
-        }else{
+        }
+        else{
             $resposta=['situacao' => 'fracasso'];
             $response->getBody()->write(json_encode($resposta));
             return $response->withHeader('Content-Type', 'application/json');
         }
+       
 }
 
 $app->run();
