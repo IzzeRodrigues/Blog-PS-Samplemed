@@ -49,11 +49,13 @@ function setPosts(Request $request, Response $response, array $args){
 
        $data = (new DateTime())->format('Y-m-d');
 
-    $conn = getConn();
-    $sql = "SELECT nm_usuario FROM tb_usuario WHERE nm_usuario=$post[nm_usuario]";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $nome = $stmt->fetchObject();
+       dd($post);
+
+    // $conn = getConn();
+    // $sql = "SELECT nm_usuario FROM tb_usuario WHERE nm_usuario=$nome";
+    // $stmt = $conn->prepare($sql);
+    // $stmt->execute();
+    // $nome = $stmt->fetchObject();
 
    
     // $sql = "INSERT INTO tb_posts ( img_post,nm_post, dt_post, cd_usuario)
@@ -62,7 +64,7 @@ function setPosts(Request $request, Response $response, array $args){
     // $stmt = $conn->prepare($sql);
     // $stmt->execute();
 
-    dd($stmt);
+    // dd($nome);
     // if($stmt){
     // $response->getBody()->write(json_encode(['situacao' => 'sucesso']));
     // return $response->withHeader('Content-Type', 'application/json');
