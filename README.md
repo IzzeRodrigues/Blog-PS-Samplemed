@@ -24,6 +24,7 @@ Este projeto é um MVP (Produto Mínimo Viável) de um blog, desenvolvido para u
 - **api_blog/**: Diretórios e funcionalidades do Slim Framework para a construção da API.
 - **blog/**: Diretórios e funcionalidades do Laravel para o desenvolvimento do site.
 - **readme.md e Relatório Técnico**: Descrição do projeto.
+- **Exercício Samplemed**: Descrição da atividade solicitada no processo seletivo.
 
 ## Instalação
 
