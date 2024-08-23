@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 22/08/2024 às 07:10
+-- Tempo de geração: 23/08/2024 às 03:50
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -32,7 +32,7 @@ USE `blog_ps`;
 CREATE TABLE `tb_posts` (
   `id_post` int(11) NOT NULL,
   `nm_post` varchar(150) NOT NULL,
-  `img_post` varchar(200) NOT NULL,
+  `img_post` longblob NOT NULL,
   `dt_post` date NOT NULL,
   `cd_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -42,8 +42,9 @@ CREATE TABLE `tb_posts` (
 --
 
 INSERT INTO `tb_posts` (`id_post`, `nm_post`, `img_post`, `dt_post`, `cd_usuario`) VALUES
-(5, 'descricao', 'imagem', '2024-08-21', 1),
-(6, 'sdifygiwgyeffshuifdihuofsdohuji', 'teste', '2024-08-13', 2);
+(5, 'descricao', 0x696d6167656d, '2024-08-21', 1),
+(6, 'sdifygiwgyeffshuifdihuofsdohuji', 0x7465737465, '2024-08-13', 2),
+(7, 'bom dia gente!', '', '2024-08-23', 11);
 
 -- --------------------------------------------------------
 
@@ -93,7 +94,7 @@ ALTER TABLE `tb_usuario`
 -- AUTO_INCREMENT de tabela `tb_posts`
 --
 ALTER TABLE `tb_posts`
-  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de tabela `tb_usuario`

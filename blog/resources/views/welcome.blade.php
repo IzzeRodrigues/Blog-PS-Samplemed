@@ -99,7 +99,7 @@
                            $body = $conexao->json(); 
 
                             session_start();
-                            $_SESSION['post'] = $body;
+                            $_SESSION['post'] = $body;  
                            
                            ?>
                        <article>

@@ -17,6 +17,6 @@ Route::post('/registro', [userController::class, 'setUser'])->name('registro');
 
 Route::get('/criar-post', [PostController::class, 'setPost'])->name('criarPost');
 
-//  Route::get('/postar', function () {return view('welcome');})->name('postar');
+// Route::get('/postar', function () {return view('welcome');})->name('postar');
 // Route::get('/criarPost', function () {return view('criar');})->name('criar');
 
